@@ -1,3 +1,5 @@
+package com.github.ekkan;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
