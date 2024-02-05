@@ -1,3 +1,5 @@
+package com.github.ekkan;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,10 +10,27 @@ import java.util.Locale;
 public class MortgageCalculator {
 
     public static double calculateMonthlyPayment(double loanAmount, double annualInterestRate, int termInYears) {
+        if (loanAmount < 0) {
+            throw new IllegalArgumentException("Loan amount must be non-negative");
+        }
+        if (annualInterestRate < 0) {
+            throw new IllegalArgumentException("Interest rate must be non-negative");
+        }
+        if (termInYears <= 0) {
+            throw new IllegalArgumentException("Term in years must be greater than 0");
+        }
+
+        if (annualInterestRate == 0) {
+            return loanAmount / (termInYears * 12);
+        }
+
         double monthlyInterestRate = annualInterestRate / 12.0 / 100;
         int totalNumberOfPayments = termInYears * 12;
+
         return (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -totalNumberOfPayments));
     }
+
+
 
     public static void readAndCalculateMortgage(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
